@@ -51,10 +51,14 @@ public class AdminMode {
               screen.displayMessageLine("tes unblock account");
               break;
           case VIEW_DISPENSER:
-              screen.displayMessageLine("view dispenser");
+              cashDispenser.displayDispenser();
+//              screen.displayMessageLine("view dispenser");
               break;
           case ADD_DISPENSER:
-              screen.displayMessageLine("add dispenser");
+              screen.displayMessage("Insert a number to cash dispenser : ");
+              double add = keypad.getInput();
+              cashDispenser.addCashDispenser((int) add);
+//              screen.displayMessageLine("add dispenser");
               break;
           case QUIT:
               screen.displayMessageLine("Quit....");
@@ -62,7 +66,7 @@ public class AdminMode {
           default:
               break;
       }
-
+                        
   }
   
 }

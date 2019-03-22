@@ -6,6 +6,7 @@
 package com.appl.atm.model;
 
 import com.appl.atm.view.Screen;
+//import com.appl.atm.controller.AdminMode
 
 /**
  *
@@ -30,7 +31,7 @@ public class CashDispenser {
     }
 
     public void displayDispenser() {
-        screen.displayMessage("Total Cash Dispenser: "+count); 
+        screen.displayMessageLine("Total Cash Dispenser: "+count ); 
     }
     
     public void addCashDispenser(int amount) {
