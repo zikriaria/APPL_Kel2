@@ -120,7 +120,9 @@ public class ATM {
 		    break;
                     
                 case CHANGE_PIN:
-                    
+                    ChangePINController changePIN = new ChangePINController(currentAccountNumber, 
+                            screen, bankDatabase, keypad);
+                    changePIN.execute();
                     break;
 		    
 		case EXIT: // user chose to terminate session
