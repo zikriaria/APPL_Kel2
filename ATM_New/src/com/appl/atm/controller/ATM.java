@@ -118,6 +118,10 @@ public class ATM {
 			    = new DepositController(currentTransaction, keypad, screen);
 		    currentTransactionController.run(); // execute transaction
 		    break;
+                    
+                case CHANGE_PIN:
+                    
+                    break;
 		    
 		case EXIT: // user chose to terminate session
 		    screen.displayMessageLine("\nExiting the system...");
@@ -138,7 +142,8 @@ public class ATM {
 	screen.displayMessageLine("1 - View my balance");
 	screen.displayMessageLine("2 - Withdraw cash");
 	screen.displayMessageLine("3 - Deposit funds");
-	screen.displayMessageLine("4 - Exit\n");
+        screen.displayMessageLine("4 - Change PIN");
+	screen.displayMessageLine("5 - Exit\n");
 	screen.displayMessage("Enter a choice: ");
 	return keypad.getInput(); // return user's selection
     }

@@ -31,7 +31,7 @@ public class BankDatabase {
         return null; // if no matching account was found, return null
     }
     
-    public int authenticateUser(int userAccountNumber, int userPIN)
+    public int authenticateUser(int userAccountNumber, int userPIN) //1 = true; 2 = false;
     {
 	Account userAccount = getAccount(userAccountNumber);
 	
