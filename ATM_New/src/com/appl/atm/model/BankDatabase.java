@@ -31,6 +31,10 @@ public class BankDatabase {
         return null; // if no matching account was found, return null
     }
     
+    public boolean addAccount(int addAccountNumber, int addAccountPIN, double addAvailableBalance, double addTotalBalance) {
+        return accounts.add(new Account(addAccountNumber, addAccountPIN, addAvailableBalance, addTotalBalance)); 
+    }
+    
     public int authenticateUser(int userAccountNumber, int userPIN)
     {
 	Account userAccount = getAccount(userAccountNumber);
