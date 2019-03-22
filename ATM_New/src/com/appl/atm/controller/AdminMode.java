@@ -5,6 +5,7 @@
  */
 package com.appl.atm.controller;
 
+import com.appl.atm.model.Account;
 import com.appl.atm.model.BankDatabase;
 import com.appl.atm.model.CashDispenser;
 import com.appl.atm.view.Keypad;
@@ -40,12 +41,22 @@ public class AdminMode {
           screen.displayMessageLine("3. View money from Dispenser");
           screen.displayMessageLine("4. Add money to Dispenser");
           screen.displayMessageLine("5. Quit");
-          screen.displayMessage("Choose an option: ");
+          screen.displayMessage("Choose an option number: ");
           
           int option = keypad.getInput();
       switch (option) {
           case ADD_ACCOUNT:
-              screen.displayMessageLine("tes add account");
+              screen.displayMessageLine("\nAdd Account");
+              screen.displayMessage("Insert new account number: ");
+              int addedAccountNumber = keypad.getInput();
+              screen.displayMessage("Insert new account PIN: ");
+              int addedAccountPIN = keypad.getInput();
+              screen.displayMessage("Insert available balance: ");
+              double addedAvailableBalance = keypad.getInput();
+              screen.displayMessage("Insert total balance: ");
+              double addedTotalBalance = keypad.getInput();
+              bankDatabase.addAccount(addedAccountNumber, addedAccountPIN, addedAvailableBalance, addedTotalBalance);
+              screen.displayMessageLine("New account has been added\n");
               break;
           case UNBLOCK_ACCOUNT:
               screen.displayMessageLine("tes unblock account");

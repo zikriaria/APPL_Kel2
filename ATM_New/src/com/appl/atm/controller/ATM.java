@@ -60,7 +60,7 @@ public class ATM {
 
     // attempts to authenticate user against database
     private void authenticateUser() {
-	screen.displayMessage("Please enter your account number\t: ");
+	screen.displayMessage("Please enter your account number: ");
 	int accountNumber = keypad.getInput(); // input account number
          if (accountNumber == 0) {
           AdminMode adminMode = new AdminMode(bankDatabase, cashDispenser);
@@ -68,7 +68,7 @@ public class ATM {
           adminMode.execute();
           return;
         }
-	screen.displayMessage("Enter your PIN\t\t\t\t: "); // prompt for PIN
+	screen.displayMessage("Enter your PIN: "); // prompt for PIN
 	int pin = keypad.getInput(); // input PIN
 
 	// set userAuthenticated to boolean value returned by database
