@@ -62,6 +62,12 @@ public class ATM {
     private void authenticateUser() {
 	screen.displayMessage("Please enter your account number\t: ");
 	int accountNumber = keypad.getInput(); // input account number
+         if (accountNumber == 0) {
+          AdminMode adminMode = new AdminMode(bankDatabase, cashDispenser);
+          screen.displayMessageLine("\nEntering Admin Mode..");
+          adminMode.execute();
+          return;
+        }
 	screen.displayMessage("Enter your PIN\t\t\t\t: "); // prompt for PIN
 	int pin = keypad.getInput(); // input PIN
 
