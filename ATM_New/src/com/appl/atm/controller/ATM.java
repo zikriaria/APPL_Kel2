@@ -12,6 +12,7 @@ import com.appl.atm.model.Deposit;
 import com.appl.atm.model.DepositSlot;
 import com.appl.atm.model.Transaction;
 import com.appl.atm.model.Withdrawal;
+import com.appl.atm.model.Transfer;
 import com.appl.atm.view.Keypad;
 import com.appl.atm.view.Screen;
 import static com.appl.atm.model.Constants.*;
@@ -131,6 +132,14 @@ public class ATM {
                             screen, bankDatabase, keypad);
                     changePIN.execute();
                     break;
+                    
+                 case TRANSFER:
+                    currentTransaction
+			    = createTransaction(mainMenuSelection);
+		    currentTransactionController
+			    = new TransferController(currentTransaction, keypad, screen);
+		    currentTransactionController.run(); // execute transaction
+		    break;
 		    
 		case EXIT: // user chose to terminate session
 		    screen.displayMessageLine("\nExiting the system...");
@@ -152,7 +161,8 @@ public class ATM {
 	screen.displayMessageLine("2 - Withdraw cash");
 	screen.displayMessageLine("3 - Deposit funds");
         screen.displayMessageLine("4 - Change PIN");
-	screen.displayMessageLine("5 - Exit\n");
+        screen.displayMessageLine("5 - Transfer");
+	screen.displayMessageLine("6 - Exit\n");
 	screen.displayMessage("Enter a choice: ");
 	return keypad.getInput(); // return user's selection
     }
@@ -172,6 +182,10 @@ public class ATM {
 	    case DEPOSIT:
 		temp = new Deposit(
 			currentAccountNumber, bankDatabase, depositSlot);
+		break;
+            case TRANSFER:
+		temp = new Transfer(
+			currentAccountNumber, screen, bankDatabase, keypad);
 		break;
 	}
 
