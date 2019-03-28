@@ -19,6 +19,7 @@ public class BankDatabase {
         accounts = new ArrayList<Account>();
 	accounts.add(new Account(1234, 4321, 1000.0, 1200.0, false));
 	accounts.add(new Account(8765, 5678, 200.0, 200.0, false));
+        accounts.add(new Account(0, 0, 0, 0, false));
     }
     
     public Account getAccount(int accountNumber) {
@@ -31,9 +32,9 @@ public class BankDatabase {
         return null; // if no matching account was found, return null
     }
     
-    public int authenticateUser(int userAccountNumber, int userPIN) //1 = true; 2 = false;
+//    public int authenticateUser(int userAccountNumber, int userPIN) //1 = true; 2 = false;
     public boolean addAccount(int addAccountNumber, int addAccountPIN, double addAvailableBalance, double addTotalBalance) {
-        return accounts.add(new Account(addAccountNumber, addAccountPIN, addAvailableBalance, addTotalBalance)); 
+        return accounts.add(new Account(addAccountNumber, addAccountPIN, addAvailableBalance, addTotalBalance, false)); 
     }
     
     public int authenticateUser(int userAccountNumber, int userPIN)
