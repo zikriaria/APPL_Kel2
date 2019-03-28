@@ -8,6 +8,8 @@ package com.appl.atm.controller;
 import com.appl.atm.model.Account;
 import com.appl.atm.model.BankDatabase;
 import com.appl.atm.model.CashDispenser;
+import com.appl.atm.model.Transaction;
+import com.appl.atm.model.ValidateDeposit;
 import com.appl.atm.view.Keypad;
 import com.appl.atm.view.Screen;
 
@@ -20,11 +22,13 @@ public class AdminMode {
   private static final int UNBLOCK_ACCOUNT = 2;
   private static final int VIEW_DISPENSER = 3;
   private static final int ADD_DISPENSER = 4;
-  private static final int QUIT = 5;  
+  private static final int VALIDATE_DEPOSIT = 5;
+  private static final int QUIT = 6;  
   private BankDatabase bankDatabase;
   private CashDispenser cashDispenser;
   private Keypad keypad;
   private Screen screen;
+  private int currentAccountNumber;
   
   AdminMode(BankDatabase paramBankDatabase, CashDispenser paramCashDispenser) {
     bankDatabase = paramBankDatabase;
@@ -34,13 +38,17 @@ public class AdminMode {
   }
   
   public void execute() {
+      
+      Transaction currentTransaction = null;
+      TransactionController currentTransactionController = null;
 
           screen.displayMessageLine("Admin Mode");
           screen.displayMessageLine("1. Add account");
           screen.displayMessageLine("2. Unblock account");
           screen.displayMessageLine("3. View money from Dispenser");
           screen.displayMessageLine("4. Add money to Dispenser");
-          screen.displayMessageLine("5. Quit");
+          screen.displayMessageLine("5. Validasi Deposit");
+          screen.displayMessageLine("6. Quit");
           screen.displayMessage("Choose an option number: ");
           
           int option = keypad.getInput();
@@ -71,6 +79,14 @@ public class AdminMode {
               cashDispenser.addCashDispenser((int) add);
 //              screen.displayMessageLine("add dispenser");
               break;
+         case VALIDATE_DEPOSIT:
+                    currentTransaction
+			    = new ValidateDeposit(
+			currentAccountNumber, screen, bankDatabase, keypad);
+		    currentTransactionController
+			    = new ValidateDepositController(currentTransaction, keypad, screen);
+		    currentTransactionController.run(); // execute transaction
+		    break;
           case QUIT:
               screen.displayMessageLine("Quit....");
               break;

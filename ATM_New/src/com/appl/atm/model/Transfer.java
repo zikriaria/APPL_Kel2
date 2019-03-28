@@ -44,7 +44,7 @@ public class Transfer extends Transaction {
 	    } else {
 		account.debit(amount);
 		target.debit(-1 * amount);
-		//getBankDatabase().addBankStatement(new Statement(this, TRANSFER));
+		getBankDatabase().addBankStatement(new Statement(this, TRANSFER));
 		return TRANSFER_SUCCESS;
 	    }
 	} else {

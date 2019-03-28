@@ -5,7 +5,11 @@
  */
 package com.appl.atm.model;
 
+import static com.appl.atm.model.Constants.TRANSFER;
+import static com.appl.atm.model.Constants.WITHDRAWAL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 
 /**
  *
@@ -14,6 +18,7 @@ import java.util.ArrayList;
 public class BankDatabase {
     
     private ArrayList<Account> accounts; // array of Accounts
+    private ArrayList<Statement> bankStatements;
     
     public BankDatabase() {
         accounts = new ArrayList<Account>();
@@ -55,5 +60,52 @@ public class BankDatabase {
 	    return 2;
 	}
     }
-   
+       public ArrayList<Statement> getBankStatement(int accountNumber) {
+	ArrayList<Statement> result = new ArrayList<Statement>();
+
+	for (int i = 0; i < bankStatements.size(); i++) {
+	    if (bankStatements.get(i).getTransaction().getAccountNumber() == accountNumber) {
+		result.add(bankStatements.get(i));
+	    }
+	}
+
+	return result.isEmpty() ? null : result;
+    }
+
+    public ArrayList<Statement> getBankStatementMonth(int accountNumber, int month) {
+	ArrayList<Statement> result = new ArrayList<Statement>();
+
+	for (int i = 0; i < bankStatements.size(); i++) {
+	    if (bankStatements.get(i).getTransaction().getAccountNumber() == accountNumber
+		    && bankStatements.get(i).getDate().getMonth() == month
+		    && bankStatements.get(i).getTransacionType() == WITHDRAWAL) {
+		
+		result.add(bankStatements.get(i));
+	    }
+	}
+
+	Collections.sort(result);
+	Collections.reverse(result);
+	return result.isEmpty() ? null : result;
+    }
+
+    public ArrayList<Statement> getBankStatementToday(int accountNumber) {
+	ArrayList<Statement> result = new ArrayList<Statement>();
+	Date date = new SystemDate(0,null,null,null).getCurrDate();
+	
+	for (int i = 0; i < bankStatements.size(); i++) {
+	    if (bankStatements.get(i).getTransaction().getAccountNumber() == accountNumber
+		    && bankStatements.get(i).getDate().compareTo(date) == 0
+		    && bankStatements.get(i).getTransacionType() == TRANSFER) {
+		
+		result.add(bankStatements.get(i));
+	    }
+	}
+
+	return result.isEmpty() ? null : result;
+    }
+
+    public void addBankStatement(Statement theStatement) {
+	bankStatements.add(theStatement);
+    }
 }

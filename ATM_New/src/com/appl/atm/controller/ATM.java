@@ -7,6 +7,7 @@ package com.appl.atm.controller;
 
 import com.appl.atm.model.BalanceInquiry;
 import com.appl.atm.model.BankDatabase;
+import com.appl.atm.model.BankStatement;
 import com.appl.atm.model.CashDispenser;
 import com.appl.atm.model.Deposit;
 import com.appl.atm.model.DepositSlot;
@@ -142,11 +143,11 @@ public class ATM {
 		    currentTransactionController.run(); // execute transaction
 		    break;
                     
-		 case VALIDATE_DEPOSIT:
-                    currentTransaction
+                case BANK_STATEMENT:
+		    currentTransaction
 			    = createTransaction(mainMenuSelection);
 		    currentTransactionController
-			    = new ValidateDepositController(currentTransaction, keypad, screen);
+			    = new BankStatementController(currentTransaction, keypad, screen);
 		    currentTransactionController.run(); // execute transaction
 		    break;
                     
@@ -171,7 +172,7 @@ public class ATM {
 	screen.displayMessageLine("3 - Deposit funds");
         screen.displayMessageLine("4 - Change PIN");
         screen.displayMessageLine("5 - Transfer");
-        screen.displayMessageLine("6 - Validate Deposit");
+        screen.displayMessageLine("6 - Lihat Bank Statement");
 	screen.displayMessageLine("7 - Exit\n");
 	screen.displayMessage("Enter a choice: ");
 	return keypad.getInput(); // return user's selection
@@ -197,8 +198,8 @@ public class ATM {
 		temp = new Transfer(
 			currentAccountNumber, screen, bankDatabase, keypad);
 		break;
-            case VALIDATE_DEPOSIT:
-		temp = new ValidateDeposit(
+            case BANK_STATEMENT:
+		temp = new BankStatement(
 			currentAccountNumber, screen, bankDatabase, keypad);
 		break;
 	}

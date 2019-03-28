@@ -17,7 +17,7 @@ public final class Constants {
     public static final int DEPOSIT = 3;
     public static final int CHANGE_PIN = 4;
     public static final int TRANSFER = 5;
-    public static final int VALIDATE_DEPOSIT = 6;
+    public static final int BANK_STATEMENT = 6;
     public static final int EXIT = 7;
     
     // withdraw
