@@ -15,15 +15,18 @@ public class Account {
     private int pin; // PIN for authentication
     private double availableBalance; // funds available for withdrawal
     private double totalBalance; // funds available & pending deposits
+    private boolean blocked; // for blocking account
 
     // Account constructor initializes attributes
     public Account(int theAccountNumber, int thePIN, 
-	double theAvailableBalance, double theTotalBalance) {
+	double theAvailableBalance, double theTotalBalance, boolean blocked) {
 
 	accountNumber = theAccountNumber;
 	pin = thePIN;
 	availableBalance = theAvailableBalance;
 	totalBalance = theTotalBalance;
+        this.blocked = blocked;
+        
     } 
 
     public void credit(double amount) {
@@ -91,4 +94,11 @@ public class Account {
         this.totalBalance = totalBalance;
     }
     
+    public void setBlocked(boolean blocked){
+        this.blocked = blocked;
+    }
+    
+    public boolean isBlocked(){
+        return blocked;
+    }
 }

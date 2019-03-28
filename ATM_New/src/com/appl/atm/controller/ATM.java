@@ -23,6 +23,7 @@ import com.appl.atm.model.ValidateDeposit;
  * @author Annazar
  */
 public class ATM {
+
     private int userAuthenticated;
     private int currentAccountNumber; // current user's account number
     private Screen screen; // ATM's screen
@@ -30,180 +31,205 @@ public class ATM {
     private CashDispenser cashDispenser; // ATM's cash dispenser
     private DepositSlot depositSlot;
     private BankDatabase bankDatabase; // account information database
-    
-
 
     public ATM() {
-	userAuthenticated = 0;
-	currentAccountNumber = 0;
-	screen = new Screen();
-	keypad = new Keypad();
-	cashDispenser = new CashDispenser();
-	depositSlot = new DepositSlot();
-	bankDatabase = new BankDatabase();
+        userAuthenticated = 0;
+        currentAccountNumber = 0;
+        screen = new Screen();
+        keypad = new Keypad();
+        cashDispenser = new CashDispenser();
+        depositSlot = new DepositSlot();
+        bankDatabase = new BankDatabase();
     }
 
     // start ATM 
     public void run() {
-	// welcome and authenticate user; perform transactions
-	while (true) {
-	    // loop while user is not yet authenticated
-	    screen.displayMessageLine("\nWelcome!\n");
-	    while (userAuthenticated != 1) {
-		authenticateUser(); // authenticate user
-	    }
+        // welcome and authenticate user; perform transactions
+        while (true) {
+            // loop while user is not yet authenticated
+            screen.displayMessageLine("\nWelcome!\n");
+            while (userAuthenticated != 1) {
+                authenticateUser(); // authenticate user
+            }
 
-	    performTransactions(); // user is now authenticated
-	    userAuthenticated = 0; // reset before next ATM session
-	    currentAccountNumber = 0; // reset before next ATM session
-	    screen.displayMessageLine("\nThank you! Goodbye!");
-	}
+            performTransactions(); // user is now authenticated
+            userAuthenticated = 0; // reset before next ATM session
+            currentAccountNumber = 0; // reset before next ATM session
+            screen.displayMessageLine("\nThank you! Goodbye!");
+        }
     }
 
     // attempts to authenticate user against database
     private void authenticateUser() {
-	screen.displayMessage("Please enter your account number: ");
-	int accountNumber = keypad.getInput(); // input account number
-         if (accountNumber == 0) {
-          AdminMode adminMode = new AdminMode(bankDatabase, cashDispenser);
-          screen.displayMessageLine("\nEntering Admin Mode..");
-          adminMode.execute();
-          return;
+        int i = 1;
+        screen.displayMessage("Please enter your account number\t: ");
+        int accountNumber = keypad.getInput(); // input account number
+        screen.displayMessage("Enter your PIN\t\t\t\t: "); // prompt for PIN
+        int pin = keypad.getInput(); // input PIN
+//=======
+//	screen.displayMessage("Please enter your account number: ");
+//	int accountNumber = keypad.getInput(); // input account number
+        if (accountNumber == 0 && pin == 0) {
+//          checkAdmin = true;
+            AdminMode adminMode = new AdminMode(bankDatabase, cashDispenser);
+            screen.displayMessageLine("\nEntering Admin Mode..");
+            adminMode.execute();
+            return;
         }
-	screen.displayMessage("Enter your PIN: "); // prompt for PIN
-	int pin = keypad.getInput(); // input PIN
+      //  screen.displayMessage("Enter your PIN: "); // prompt for PIN
+//	int pin = keypad.getInput(); // input PIN
+//>>>>>>> origin/Zahran
 
-	// set userAuthenticated to boolean value returned by database
-	userAuthenticated
-		= bankDatabase.authenticateUser(accountNumber, pin);
+        // set userAuthenticated to boolean value returned by database
+        userAuthenticated
+                = bankDatabase.authenticateUser(accountNumber, pin);
 
-	// check whether authentication succeeded
-	if (userAuthenticated == 1) {
-	    currentAccountNumber = accountNumber; // save user's account #
-	} else {
-	    screen.displayMessageLine(
-		    "Invalid account number or PIN. Please try again.\n");
-	}
+        // check whether authentication succeeded
+        if (userAuthenticated == 1) {
+            currentAccountNumber = accountNumber; // save user's account #
+        } else if (userAuthenticated == 2) {
+            screen.displayMessageLine(
+                    "Invalid PIN. Please try again.\n");
+//            i++;
+            while (userAuthenticated == 2 && i < 3 && !bankDatabase.getAccount(accountNumber).isBlocked()) {
+                screen.displayMessage("Enter your PIN: "); // prompt for PIN
+                pin = keypad.getInput(); // input PIN
+                int cek = bankDatabase.authenticateUser(accountNumber, pin);
+                if (cek == 2) {
+                    i++;
+                } else if (cek == 1) {
+                    userAuthenticated = 1;
+                } else {
+                    userAuthenticated = 3;
+                }
+            }
+        } else if (userAuthenticated == 3) {
+            screen.displayMessageLine("Invalid account number");
+        }
+        if (i <= 3 && i != 1) {
+            screen.displayMessageLine("Sorry, your account has been blocked");
+            bankDatabase.getAccount(accountNumber).setBlocked(true);
+        }
     }
 
     // display the main menu and perform transactions
     private void performTransactions() {
-	// local variable to store transaction currently being processed
-	Transaction currentTransaction = null;
-	TransactionController currentTransactionController = null;
+        // local variable to store transaction currently being processed
+        Transaction currentTransaction = null;
+        TransactionController currentTransactionController = null;
 
-	boolean userExited = false; // user has not chosen to exit
+        boolean userExited = false; // user has not chosen to exit
 
-	// loop while user has not chosen option to exit system
-	while (!userExited) {
-	    // show main menu and get user selection
-	    int mainMenuSelection = displayMainMenu();
+        // loop while user has not chosen option to exit system
+        while (!userExited) {
+            // show main menu and get user selection
+            int mainMenuSelection = displayMainMenu();
 
-	    // decide how to proceed based on user's menu selection
-	    switch (mainMenuSelection) {
-		// user chose to perform one of three transaction types
-		case BALANCE_INQUIRY:
+            // decide how to proceed based on user's menu selection
+            switch (mainMenuSelection) {
+                // user chose to perform one of three transaction types
+                case BALANCE_INQUIRY:
 
-		    // initialize as new object of chosen type
-		    currentTransaction
-			    = createTransaction(mainMenuSelection);
-		    currentTransactionController
-			    = new BalanceInquiryController(currentTransaction, keypad, screen);
-		    currentTransactionController.run(); // execute transaction
-		    break;
-		    
-		case WITHDRAWAL:
-		    currentTransaction
-			    = createTransaction(mainMenuSelection);
-		    currentTransactionController
-			    = new WithdrawalController(currentTransaction, keypad, screen);
-		    currentTransactionController.run(); // execute transaction
-		    break;
-		    
-		case DEPOSIT:
-		    currentTransaction
-			    = createTransaction(mainMenuSelection);
-		    currentTransactionController
-			    = new DepositController(currentTransaction, keypad, screen);
-		    currentTransactionController.run(); // execute transaction
-		    break;
-                    
+                    // initialize as new object of chosen type
+                    currentTransaction
+                            = createTransaction(mainMenuSelection);
+                    currentTransactionController
+                            = new BalanceInquiryController(currentTransaction, keypad, screen);
+                    currentTransactionController.run(); // execute transaction
+                    break;
+
+                case WITHDRAWAL:
+                    currentTransaction
+                            = createTransaction(mainMenuSelection);
+                    currentTransactionController
+                            = new WithdrawalController(currentTransaction, keypad, screen);
+                    currentTransactionController.run(); // execute transaction
+                    break;
+
+                case DEPOSIT:
+                    currentTransaction
+                            = createTransaction(mainMenuSelection);
+                    currentTransactionController
+                            = new DepositController(currentTransaction, keypad, screen);
+                    currentTransactionController.run(); // execute transaction
+                    break;
+
                 case CHANGE_PIN:
-                    ChangePINController changePIN = new ChangePINController(currentAccountNumber, 
+                    ChangePINController changePIN = new ChangePINController(currentAccountNumber,
                             screen, bankDatabase, keypad);
                     changePIN.execute();
                     break;
-                    
-                 case TRANSFER:
+
+                case TRANSFER:
                     currentTransaction
-			    = createTransaction(mainMenuSelection);
-		    currentTransactionController
-			    = new TransferController(currentTransaction, keypad, screen);
-		    currentTransactionController.run(); // execute transaction
-		    break;
-                    
-		 case VALIDATE_DEPOSIT:
+                            = createTransaction(mainMenuSelection);
+                    currentTransactionController
+                            = new TransferController(currentTransaction, keypad, screen);
+                    currentTransactionController.run(); // execute transaction
+                    break;
+
+                case VALIDATE_DEPOSIT:
                     currentTransaction
-			    = createTransaction(mainMenuSelection);
-		    currentTransactionController
-			    = new ValidateDepositController(currentTransaction, keypad, screen);
-		    currentTransactionController.run(); // execute transaction
-		    break;
-                    
-		case EXIT: // user chose to terminate session
-		    screen.displayMessageLine("\nExiting the system...");
-		    userExited = true; // this ATM session should end
-		    break;
-		    
-		default: // 
-		    screen.displayMessageLine(
-			    "\nYou did not enter a valid selection. Try again.");
-		    break;
-	    }
-	}
+                            = createTransaction(mainMenuSelection);
+                    currentTransactionController
+                            = new ValidateDepositController(currentTransaction, keypad, screen);
+                    currentTransactionController.run(); // execute transaction
+                    break;
+
+                case EXIT: // user chose to terminate session
+                    screen.displayMessageLine("\nExiting the system...");
+                    userExited = true; // this ATM session should end
+                    break;
+
+                default: // 
+                    screen.displayMessageLine(
+                            "\nYou did not enter a valid selection. Try again.");
+                    break;
+            }
+        }
     }
 
     // display the main menu and return an input selection
     private int displayMainMenu() {
-	screen.displayMessageLine("\nMain menu:");
-	screen.displayMessageLine("1 - View my balance");
-	screen.displayMessageLine("2 - Withdraw cash");
-	screen.displayMessageLine("3 - Deposit funds");
+        screen.displayMessageLine("\nMain menu:");
+        screen.displayMessageLine("1 - View my balance");
+        screen.displayMessageLine("2 - Withdraw cash");
+        screen.displayMessageLine("3 - Deposit funds");
         screen.displayMessageLine("4 - Change PIN");
         screen.displayMessageLine("5 - Transfer");
         screen.displayMessageLine("6 - Validate Deposit");
-	screen.displayMessageLine("7 - Exit\n");
-	screen.displayMessage("Enter a choice: ");
-	return keypad.getInput(); // return user's selection
+        screen.displayMessageLine("7 - Exit\n");
+        screen.displayMessage("Enter a choice: ");
+        return keypad.getInput(); // return user's selection
     }
 
     private Transaction createTransaction(int type) {
-	Transaction temp = null;
+        Transaction temp = null;
 
-	switch (type) {
-	    case BALANCE_INQUIRY:
-		temp = new BalanceInquiry(
-			currentAccountNumber, bankDatabase);
-		break;
-	    case WITHDRAWAL:
-		temp = new Withdrawal(
-			currentAccountNumber, bankDatabase, cashDispenser);
-		break;
-	    case DEPOSIT:
-		temp = new Deposit(
-			currentAccountNumber, bankDatabase, depositSlot);
-		break;
+        switch (type) {
+            case BALANCE_INQUIRY:
+                temp = new BalanceInquiry(
+                        currentAccountNumber, bankDatabase);
+                break;
+            case WITHDRAWAL:
+                temp = new Withdrawal(
+                        currentAccountNumber, bankDatabase, cashDispenser);
+                break;
+            case DEPOSIT:
+                temp = new Deposit(
+                        currentAccountNumber, bankDatabase, depositSlot);
+                break;
             case TRANSFER:
-		temp = new Transfer(
-			currentAccountNumber, screen, bankDatabase, keypad);
-		break;
+                temp = new Transfer(
+                        currentAccountNumber, screen, bankDatabase, keypad);
+                break;
             case VALIDATE_DEPOSIT:
-		temp = new ValidateDeposit(
-			currentAccountNumber, screen, bankDatabase, keypad);
-		break;
-	}
+                temp = new ValidateDeposit(
+                        currentAccountNumber, screen, bankDatabase, keypad);
+                break;
+        }
 
-	return temp;
+        return temp;
     }
 
 }
