@@ -78,7 +78,7 @@ public class ATM {
           adminMode.execute();
           return;
         }
-	screen.displayMessage("Enter your PIN: "); // prompt for PIN
+//	screen.displayMessage("Enter your PIN: "); // prompt for PIN
 //	int pin = keypad.getInput(); // input PIN
 //>>>>>>> origin/Zahran
 
