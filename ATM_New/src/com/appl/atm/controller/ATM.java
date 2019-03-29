@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package com.appl.atm.controller;
+
 import com.appl.atm.model.BalanceInquiry;
 import com.appl.atm.model.BankDatabase;
 import com.appl.atm.model.CashDispenser;
@@ -62,25 +63,19 @@ public class ATM {
 
     // attempts to authenticate user against database
     private void authenticateUser() {
-//<<<<<<< HEAD
+
         int i = 1;
         screen.displayMessage("Please enter your account number\t: ");
         int accountNumber = keypad.getInput(); // input account number
         screen.displayMessage("Enter your PIN\t\t\t\t: "); // prompt for PIN
         int pin = keypad.getInput(); // input PIN
-//=======
-//	screen.displayMessage("Please enter your account number: ");
-//	int accountNumber = keypad.getInput(); // input account number
-         if (accountNumber == 0 && pin == 0) {
-//          checkAdmin = true;
-          AdminMode adminMode = new AdminMode(bankDatabase, cashDispenser);
-          screen.displayMessageLine("\nEntering Admin Mode..");
-          adminMode.execute();
-          return;
+
+        if (accountNumber == 0 && pin == 0) {
+            AdminMode adminMode = new AdminMode(bankDatabase, cashDispenser);
+            screen.displayMessageLine("\nEntering Admin Mode..");
+            adminMode.execute();
+            return;
         }
-//	screen.displayMessage("Enter your PIN: "); // prompt for PIN
-//	int pin = keypad.getInput(); // input PIN
-//>>>>>>> origin/Zahran
 
         // set userAuthenticated to boolean value returned by database
         userAuthenticated

@@ -32,7 +32,6 @@ public class BankDatabase {
         return null; // if no matching account was found, return null
     }
     
-//    public int authenticateUser(int userAccountNumber, int userPIN) //1 = true; 2 = false;
     public boolean addAccount(int addAccountNumber, int addAccountPIN, double addAvailableBalance, double addTotalBalance) {
         return accounts.add(new Account(addAccountNumber, addAccountPIN, addAvailableBalance, addTotalBalance, false)); 
     }
@@ -45,11 +44,11 @@ public class BankDatabase {
 	{
 	    if(userAccount.getPin() == userPIN)
 	    {
-		return 1;
+		return 1; //true
 	    }
 	    else
 	    {
-		return 2;
+		return 2; // false PIN
 	    }
 	}
 	else
