@@ -25,8 +25,8 @@ public class TransferController extends TransactionController {
     private Transfer transaction;
 
     public TransferController(Transaction theTransaction, Keypad theKeypad, Screen theScreen) {
-	super(theKeypad, theScreen);
-	transaction = (Transfer) theTransaction;
+	super(theTransaction, theKeypad, theScreen);
+	transaction = (Transfer) getTransaction();
     }
 
     @Override

@@ -71,4 +71,9 @@ public class Withdrawal extends Transaction {
 	this.cashDispenser = cashDispenser;
     }
 
+     @Override
+    public String toString() {
+	String res = "Withdraw $" + amount + ".";
+	return res;
+    }
 }

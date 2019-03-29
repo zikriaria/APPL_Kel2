@@ -20,8 +20,8 @@ public class WithdrawalController extends TransactionController {
     private Withdrawal transaction;
 
     public WithdrawalController(Transaction theTransaction, Keypad theKeypad, Screen theScreen) {
-	super(theKeypad, theScreen);
-	transaction = (Withdrawal) theTransaction;
+	super(theTransaction, theKeypad, theScreen);
+	transaction = (Withdrawal) getTransaction();
     }
 
 

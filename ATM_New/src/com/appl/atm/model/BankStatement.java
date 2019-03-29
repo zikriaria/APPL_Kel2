@@ -35,15 +35,6 @@ public class BankStatement extends Transaction {
     public ArrayList<Statement> getBankStatements() {
 	return getBankDatabase().getBankStatement(getAccountNumber());
     }
-
-    public ArrayList<Statement> getBankStatementMonth(int month) {
-	return getBankDatabase().getBankStatementMonth(getAccountNumber(), month);
-    }
-
-    public ArrayList<Statement> getBankStatementToday() {
-	return getBankDatabase().getBankStatementToday(getAccountNumber());
-    }
-
     /**
      * @return the keypad
      */

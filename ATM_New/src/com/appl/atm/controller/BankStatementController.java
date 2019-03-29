@@ -23,8 +23,8 @@ public class BankStatementController extends TransactionController {
     private BankStatement transaction;
 
     public BankStatementController(Transaction theTransaction, Keypad theKeypad, Screen theScreen) {
-	super(theKeypad, theScreen);
-	transaction = (BankStatement) theTransaction;
+	super(theTransaction, theKeypad, theScreen);
+	transaction = (BankStatement) getTransaction();
 
     }
 
@@ -32,35 +32,8 @@ public class BankStatementController extends TransactionController {
     public int run() {
 	ArrayList<Statement> bankStatement = new ArrayList<Statement>();
 
-	getScreen().displayMessageLine("\nBank statements menu :");
-	getScreen().displayMessageLine("1. All statements");
-	getScreen().displayMessageLine("2. Today's transfer statements");
-	getScreen().displayMessageLine("3. A month withdraw statements");
-	getScreen().displayMessage("\nChoose a menu : ");
-	int userChoice = getKeypad().getInput();
-
-	switch (userChoice) {
-	    case 1:
+	getScreen().displayMessageLine("\nBank statements");
 		bankStatement = transaction.getBankStatements();
-		break;
-	    case 2:
-		bankStatement = transaction.getBankStatementToday();
-		break;
-	    case 3:
-		int month = 0;
-		while (month < 1 || month > 12) {
-		    getScreen().displayMessage("Input the month (1 to 12) : ");
-		    month = getKeypad().getInput();
-		    
-		    if((month < 1 || month > 12)) {
-			getScreen().displayMessageLine("You have to input between 1 and 12. Try again.");
-		    }
-		}
-		bankStatement = transaction.getBankStatementMonth(month - 1);
-		break;
-	    default:
-	}
-
 	if (bankStatement == null) {
 	    getScreen().displayMessage("\nNo Bank Statement for This Account.\n");
 	} else {
@@ -79,17 +52,9 @@ public class BankStatementController extends TransactionController {
 	return transaction.getAccountNumber();
     }
 
-//    private Screen getScreen() {
-//	return transaction.getScreen();
-//    }
-
     private BankDatabase getBankDatabase() {
 	return transaction.getBankDatabase();
     }
-
-//    private Keypad getKeypad() {
-//	return transaction.getKeypad();
-//    }
 
 }
 

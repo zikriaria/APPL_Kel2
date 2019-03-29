@@ -21,6 +21,7 @@ public class BankDatabase {
     private ArrayList<Statement> bankStatements;
     
     public BankDatabase() {
+        bankStatements = new ArrayList<Statement>();
         accounts = new ArrayList<Account>();
 	accounts.add(new Account(1234, 4321, 1000.0, 1200.0));
 	accounts.add(new Account(8765, 5678, 200.0, 200.0));
@@ -65,39 +66,6 @@ public class BankDatabase {
 
 	for (int i = 0; i < bankStatements.size(); i++) {
 	    if (bankStatements.get(i).getTransaction().getAccountNumber() == accountNumber) {
-		result.add(bankStatements.get(i));
-	    }
-	}
-
-	return result.isEmpty() ? null : result;
-    }
-
-    public ArrayList<Statement> getBankStatementMonth(int accountNumber, int month) {
-	ArrayList<Statement> result = new ArrayList<Statement>();
-
-	for (int i = 0; i < bankStatements.size(); i++) {
-	    if (bankStatements.get(i).getTransaction().getAccountNumber() == accountNumber
-		    && bankStatements.get(i).getDate().getMonth() == month
-		    && bankStatements.get(i).getTransacionType() == WITHDRAWAL) {
-		
-		result.add(bankStatements.get(i));
-	    }
-	}
-
-	Collections.sort(result);
-	Collections.reverse(result);
-	return result.isEmpty() ? null : result;
-    }
-
-    public ArrayList<Statement> getBankStatementToday(int accountNumber) {
-	ArrayList<Statement> result = new ArrayList<Statement>();
-	Date date = new SystemDate(0,null,null,null).getCurrDate();
-	
-	for (int i = 0; i < bankStatements.size(); i++) {
-	    if (bankStatements.get(i).getTransaction().getAccountNumber() == accountNumber
-		    && bankStatements.get(i).getDate().compareTo(date) == 0
-		    && bankStatements.get(i).getTransacionType() == TRANSFER) {
-		
 		result.add(bankStatements.get(i));
 	    }
 	}

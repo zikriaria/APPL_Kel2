@@ -23,8 +23,8 @@ public class ValidateDepositController extends TransactionController {
     private ValidateDeposit transaction;
 
     public ValidateDepositController(Transaction theTransaction,  Keypad theKeypad, Screen theScreen) {
-	super(theKeypad, theScreen);
-	transaction = (ValidateDeposit) theTransaction;
+	super(theTransaction, theKeypad, theScreen);
+	transaction = (ValidateDeposit) getTransaction();
     }
 
     @Override

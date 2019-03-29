@@ -19,7 +19,7 @@ public class BalanceInquiryController extends TransactionController {
     private BalanceInquiry transaction;
 
     public BalanceInquiryController(Transaction theTransaction, Keypad theKeypad, Screen theScreen) {
-	super(theKeypad, theScreen);
+	super(theTransaction, theKeypad, theScreen);
 	transaction = (BalanceInquiry) theTransaction;
     }
 

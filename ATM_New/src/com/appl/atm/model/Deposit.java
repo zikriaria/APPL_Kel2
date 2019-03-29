@@ -30,6 +30,7 @@ public class Deposit extends Transaction {
 	if (depositSlot.isEnvelopeReceived()) {
 	    Account account = getBankDatabase().getAccount(getAccountNumber());
 	    account.credit(amount);
+            getBankDatabase().addBankStatement(new Statement(this, DEPOSIT));
 	    return DEPOSIT_SUCCESSFUL;
 	} else {
 	    return ENVELOPE_IS_NOT_RECEIVED;
@@ -62,5 +63,11 @@ public class Deposit extends Transaction {
      */
     public void setDepositSlot(DepositSlot depositSlot) {
 	this.depositSlot = depositSlot;
+    }
+    
+     @Override
+    public String toString() {
+	String res = "Deposit $" + amount + ".";
+	return res;
     }
 }

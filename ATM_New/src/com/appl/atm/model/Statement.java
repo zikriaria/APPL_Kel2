@@ -13,7 +13,7 @@ import static com.appl.atm.model.Constants.*;
 import java.util.Date;
 
 
-public class Statement implements Comparable<Statement>{
+public class Statement {
 
     private Transaction transaction;
     private int transacionType;
@@ -22,7 +22,7 @@ public class Statement implements Comparable<Statement>{
     public Statement(Transaction theTransaction, int theTransacionType) {
 	transaction = theTransaction;
 	transacionType = theTransacionType;
-	date = new SystemDate(0,null,null,null).getCurrDate();
+ 	date = new SystemDate(0,null,null,null).getDate();
     }
 
     /**
@@ -67,13 +67,13 @@ public class Statement implements Comparable<Statement>{
 	this.date = date;
     }
 
-    @Override
-    public int compareTo(Statement o) {
-	if (transacionType == WITHDRAWAL) {
-	    return Integer.compare(((Withdrawal) getTransaction()).getAmount(), ((Withdrawal) o.getTransaction()).getAmount());
-	}
-	
-	return 0;
-    }
+//    @Override
+//    public int compareTo(Statement o) {
+//	if (transacionType == WITHDRAWAL) {
+//	    return Integer.compare(((Withdrawal) getTransaction()).getAmount(), ((Withdrawal) o.getTransaction()).getAmount());
+//	}
+//	
+//	return 0;
+//    }
 }
 
