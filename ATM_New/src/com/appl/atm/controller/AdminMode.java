@@ -60,7 +60,10 @@ public class AdminMode {
                     screen.displayMessageLine("New account has been added\n");
                     break;
                 case UNBLOCK_ACCOUNT:
-                    screen.displayMessageLine("tes unblock account");
+                    screen.displayMessage("Enter the account number to unblock: ");
+                    int accountNumber = keypad.getInput();
+                    bankDatabase.getAccount(accountNumber).setBlocked(false);
+                    screen.displayMessageLine("The account has been unblocked.\n");
                     break;
                 case VIEW_DISPENSER:
                     cashDispenser.displayDispenser();
