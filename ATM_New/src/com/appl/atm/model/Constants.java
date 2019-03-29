@@ -26,6 +26,12 @@ public final class Constants {
     public static final int BALANCE_NOT_ENOUGH = 2;
     public static final int CASHDISPENSER_NOT_ENOUGH = 3;
     
+    //type account
+    public static final int ADMIN = 0;
+    public static final int BISNIS = 1;
+    public static final int STUDENT = 2;
+    public static final int MASA_DEPAN = 3;
+    
     // deposit
     public static final int DEPOSIT_CANCELED = 0;
     public static final int DEPOSIT_SUCCESSFUL = 1;
@@ -33,6 +39,7 @@ public final class Constants {
     
     //transfer
     public static final int TRANSFER_SUCCESS = 0;
+    public static final int TRANSFER_UNSUCCESSFUL = 1;
     public static final int NEGATIVE_AMOUNT = 2;
     public static final int SAME_ACCOUNT_NUMBER = 3;
     public static final int ACCOUNT_BALANCE_NOT_SUFFICIENT = 4;

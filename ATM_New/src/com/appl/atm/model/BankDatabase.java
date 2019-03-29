@@ -4,8 +4,9 @@
  * and open the template in the editor.
  */
 package com.appl.atm.model;
-
+import static com.appl.atm.model.Constants.*;
 import java.util.ArrayList;
+
 
 /**
  *
@@ -17,9 +18,10 @@ public class BankDatabase {
     
     public BankDatabase() {
         accounts = new ArrayList<Account>();
-	accounts.add(new Account(1234, 4321, 1000.0, 1200.0, false));
-	accounts.add(new Account(8765, 5678, 200.0, 200.0, false));
-        accounts.add(new Account(0, 0, 0, 0, false));
+	accounts.add(new Account(1234, 4321, 1000.0, 1200.0, false, STUDENT));
+	accounts.add(new Account(8765, 5678, 200.0, 200.0, false, MASA_DEPAN));
+        accounts.add(new Account(5555, 5555, 500.0, 500.0, false, BISNIS));
+        accounts.add(new Account(0, 0, 0, 0, false, ADMIN));
     }
     
     public Account getAccount(int accountNumber) {
@@ -33,8 +35,8 @@ public class BankDatabase {
     }
     
 //    public int authenticateUser(int userAccountNumber, int userPIN) //1 = true; 2 = false;
-    public boolean addAccount(int addAccountNumber, int addAccountPIN, double addAvailableBalance, double addTotalBalance) {
-        return accounts.add(new Account(addAccountNumber, addAccountPIN, addAvailableBalance, addTotalBalance, false)); 
+    public boolean addAccount(int addAccountNumber, int addAccountPIN, double addAvailableBalance, double addTotalBalance, int newType) {
+        return accounts.add(new Account(addAccountNumber, addAccountPIN, addAvailableBalance, addTotalBalance, false, newType)); 
     }
     
     public int authenticateUser(int userAccountNumber, int userPIN)

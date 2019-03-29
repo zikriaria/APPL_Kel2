@@ -51,12 +51,14 @@ public class AdminMode {
                     screen.displayMessage("Insert new account number: ");
                     int addedAccountNumber = keypad.getInput();
                     screen.displayMessage("Insert new account PIN: ");
+                    int addedNewType = keypad.getInput();
+                    screen.displayMessage("Insert Account Type: ");
                     int addedAccountPIN = keypad.getInput();
                     screen.displayMessage("Insert available balance: ");
                     double addedAvailableBalance = keypad.getInput();
                     screen.displayMessage("Insert total balance: ");
                     double addedTotalBalance = keypad.getInput();
-                    bankDatabase.addAccount(addedAccountNumber, addedAccountPIN, addedAvailableBalance, addedTotalBalance);
+                    bankDatabase.addAccount(addedAccountNumber, addedAccountPIN, addedAvailableBalance, addedTotalBalance, addedNewType);
                     screen.displayMessageLine("New account has been added\n");
                     break;
                 case UNBLOCK_ACCOUNT:

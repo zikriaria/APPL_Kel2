@@ -21,6 +21,7 @@ public class Transfer extends Transaction {
     private Keypad keypad;
     private Screen screen;
     private int targetAccount;
+    
 
     public Transfer(int userAccountNumber, Screen atmScreen,
 	    BankDatabase atmBankDatabase, Keypad atmKeyPad) {
@@ -39,19 +40,44 @@ public class Transfer extends Transaction {
 	if (target != null) {
 	    if (amount < 0) {
 		return NEGATIVE_AMOUNT;
-	    } else if (account.getAvailableBalance() < amount ) {
+	    } else if (account.getAccountType() == 1) {
+                if (amount > 10000) {
+                    return TRANSFER_UNSUCCESSFUL;
+                }
+            } else if (account.getAccountType() == 3) {
+                if (amount > 500) {
+                    return TRANSFER_UNSUCCESSFUL;
+                }
+        }
+        else if (account.getAvailableBalance() < amount ) {
 		return ACCOUNT_BALANCE_NOT_SUFFICIENT;
 	    } else {
 		account.debit(amount);
 		target.debit(-1 * amount);
 		//getBankDatabase().addBankStatement(new Statement(this, TRANSFER));
 		return TRANSFER_SUCCESS;
-	    }
-	} else {
+	    } 
+        }else {
 	    return USER_NOT_FOUND;
-	}
+        }
+        return 0;
 
     }
+  
+//      public void limitTransfer(int target) {
+//          if
+//      }
+//    public void limitTransfer(int target) {
+//        if ( = BISNIS){
+//            
+//        }
+//        if (amount > 500) {
+//            this.targetAccount = target;
+//            limitTransfer(target);
+//        screen.displayMessageLine("Transfer unsuccessfull because limit Transfer");
+//        }
+//    }
+// 
 
     /**
      * @return the amount
