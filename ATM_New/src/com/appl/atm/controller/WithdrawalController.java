@@ -62,7 +62,8 @@ public class WithdrawalController extends TransactionController {
 	    for (int i = 0; i < amounts.length - 1; i++) {
 		screen.displayMessageLine((i + 1) + " - $" + amounts[i + 1]);
 	    }
-	    screen.displayMessageLine(amounts.length + " - Cancel transaction");
+	    screen.displayMessageLine("6 - Withhdraw amount");
+            screen.displayMessageLine("7 - Cancel transaction");
 	    screen.displayMessage("\nChoose a withdrawal amount: ");
 
 	    int input = getKeypad().getInput(); // get user input through keypad
@@ -75,8 +76,13 @@ public class WithdrawalController extends TransactionController {
 		case 4:
 		case 5:
 		    userChoice = amounts[input]; // save user's choice
+		    break;		
+                case WITHDRAW_BALLANCE: // the user chose to cancel
+		    screen.displayMessage("Insert value to withdraw: ");
+                    int newWithdraw = getKeypad().getInput();                    
+                    userChoice = newWithdraw; 
 		    break;
-		case WITHDRAWAL_CANCELED: // the user chose to cancel
+                case WITHDRAWAL_CANCELED: // the user chose to cancel
 		    userChoice = 0; // save user's choice
 		    screen.displayMessageLine("Canceling transaction...");
 		    break;
