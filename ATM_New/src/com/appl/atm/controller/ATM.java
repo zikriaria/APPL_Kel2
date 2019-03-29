@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package com.appl.atm.controller;
-
 import com.appl.atm.model.BalanceInquiry;
 import com.appl.atm.model.BankDatabase;
 import com.appl.atm.model.CashDispenser;
@@ -88,19 +87,19 @@ public class ATM {
                 = bankDatabase.authenticateUser(accountNumber, pin);
 
         // check whether authentication succeeded
-        if (userAuthenticated == 1) {
+        if (userAuthenticated == 1) { //1 = bener
             currentAccountNumber = accountNumber; // save user's account #
-        } else if (userAuthenticated == 2) {
+        } else if (userAuthenticated == 2) { // 2 = salah PIN
             screen.displayMessageLine(
                     "Invalid PIN. Please try again.\n");
 //            i++;
             while (userAuthenticated == 2 && i < 3 && !bankDatabase.getAccount(accountNumber).isBlocked()) {
                 screen.displayMessage("Enter your PIN: "); // prompt for PIN
                 pin = keypad.getInput(); // input PIN
-                int cek = bankDatabase.authenticateUser(accountNumber, pin);
-                if (cek == 2) {
+                int checkAcc = bankDatabase.authenticateUser(accountNumber, pin);
+                if (checkAcc == 2) {
                     i++;
-                } else if (cek == 1) {
+                } else if (checkAcc == 1) {
                     userAuthenticated = 1;
                 } else {
                     userAuthenticated = 3;
@@ -109,7 +108,7 @@ public class ATM {
         } else if (userAuthenticated == 3) {
             screen.displayMessageLine("Invalid account number");
         }
-        if (i <= 3 && i != 1) {
+        if (i <= 3 && userAuthenticated != 1) {
             screen.displayMessageLine("Sorry, your account has been blocked");
             bankDatabase.getAccount(accountNumber).setBlocked(true);
         }
