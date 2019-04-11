@@ -23,7 +23,7 @@ public class ValidateDepositController extends TransactionController {
     private ValidateDeposit transaction;
 
     public ValidateDepositController(Transaction theTransaction,  Keypad theKeypad, Screen theScreen) {
-	super(theKeypad, theScreen);
+	super(theTransaction, theKeypad, theScreen);
 	transaction = (ValidateDeposit) theTransaction;
     }
 

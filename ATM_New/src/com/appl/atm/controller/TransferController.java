@@ -26,7 +26,7 @@ public class TransferController extends TransactionController {
     private Transfer transaction;
 
     public TransferController(Transaction theTransaction, Keypad theKeypad, Screen theScreen) {
-        super(theKeypad, theScreen);
+        super(theTransaction, theKeypad, theScreen);
         transaction = (Transfer) theTransaction;
     }
 
@@ -51,9 +51,12 @@ public class TransferController extends TransactionController {
                 transaction.setAmount(amount);
                 int res = transaction.execute();
 
-                switch (res) {
+                 switch (res) {
                     case TRANSFER_SUCCESS:
                         screen.displayMessage("Transfer success.\n");
+                        break;
+                    case TRANSFER_UNSUCCESSFUL:
+                        screen.displayMessage("Transfer Unsuccessfull.\n");
                         break;
                     case NEGATIVE_AMOUNT:
                         screen.displayMessage("The amount of transfer cant be negative\n");

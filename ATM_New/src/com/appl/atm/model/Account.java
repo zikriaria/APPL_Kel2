@@ -5,6 +5,8 @@
  */
 package com.appl.atm.model;
 
+import static com.appl.atm.model.Constants.*;
+
 /**
  *
  * @author Annazar
@@ -15,17 +17,35 @@ public class Account {
     private int pin; // PIN for authentication
     private double availableBalance; // funds available for withdrawal
     private double totalBalance; // funds available & pending deposits
+    private double transferLimit;
+    private int accountType;//to know your account type
     private boolean blocked; // for blocking account
 
     // Account constructor initializes attributes
     public Account(int theAccountNumber, int thePIN, 
-	double theAvailableBalance, double theTotalBalance, boolean blocked) {
+	double theAvailableBalance, double theTotalBalance, boolean blocked, int theAccountType) {
 
 	accountNumber = theAccountNumber;
 	pin = thePIN;
 	availableBalance = theAvailableBalance;
 	totalBalance = theTotalBalance;
         this.blocked = blocked;
+        accountType = theAccountType;
+        
+        switch (accountType){
+            case BISNIS:
+                transferLimit = 10000.0;
+                break;
+            case MASA_DEPAN:
+                transferLimit =  500.0;
+                break;
+            case ADMIN:
+                transferLimit = 0.0;
+                break;
+            case STUDENT:
+                transferLimit = 0.0;
+                break;
+        }
         
     } 
 
@@ -100,5 +120,9 @@ public class Account {
     
     public boolean isBlocked(){
         return blocked;
+    }
+    
+     public int getAccountType() {
+        return accountType;
     }
 }

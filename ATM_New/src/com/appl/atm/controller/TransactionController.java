@@ -17,8 +17,10 @@ public abstract class TransactionController {
 
     private Keypad keypad;
     private Screen screen;
+    private Transaction transaction;
 
-    public TransactionController(Keypad theKeypad, Screen theScreen) {
+    public TransactionController(Transaction theTransaction, Keypad theKeypad, Screen theScreen) {
+        transaction = theTransaction;
 	keypad = theKeypad;
 	screen = theScreen;
     }
@@ -37,6 +39,17 @@ public abstract class TransactionController {
      */
     public Screen getScreen() {
 	return screen;
+    }
+    
+     public Transaction getTransaction() {
+	return transaction;
+    }
+
+    /**
+     * @param transaction the transaction to set
+     */
+    public void setTransaction(Transaction transaction) {
+	this.transaction = transaction;
     }
 
 }

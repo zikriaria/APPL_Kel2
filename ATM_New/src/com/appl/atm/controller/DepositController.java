@@ -20,7 +20,7 @@ public class DepositController extends TransactionController {
     private Deposit transaction;
 
     public DepositController(Transaction theTransaction, Keypad theKeypad, Screen theScreen) {
-	super(theKeypad, theScreen);
+	super(theTransaction, theKeypad, theScreen);
 	transaction = (Deposit) theTransaction;
     }
 

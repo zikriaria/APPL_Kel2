@@ -36,7 +36,7 @@ public class Withdrawal extends Transaction {
         if (cashDispenser.isSufficientCashAvailable(amount)) {
             cashDispenser.dispenseCash(amount);
             account.debit(amount);
-//            getBankDatabase().addBankStatement(new Statement(this, WITHDRAWAL));
+            getBankDatabase().addBankStatement(new Statement(this, WITHDRAWAL));
             return WITHDRAW_SUCCESSFUL;
         } else {
             return CASHDISPENSER_NOT_ENOUGH;
